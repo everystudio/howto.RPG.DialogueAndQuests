@@ -28,5 +28,15 @@ namespace RPG.Dialogue.Editor
             }
             return false;
         }
+
+        private void OnGUI()
+        {
+            //Debug.Log("ongui");
+
+            EditorGUILayout.LabelField("りんご");
+            EditorGUILayout.LabelField("みかん");
+            EditorGUILayout.LabelField("MOMO");
+
+        }
     }
 }
