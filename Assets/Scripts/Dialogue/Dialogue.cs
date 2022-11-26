@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "新しいDialogue", menuName = Defines.ProjectMenuName + "/Dialogue")]
-public class Dialogue : ScriptableObject
+namespace RPG.Dialogue
 {
-    [SerializeField] private DialogueNode[] nodes;
+    [CreateAssetMenu(fileName = "新しいDialogue", menuName = Defines.ProjectMenuName + "/Dialogue")]
+    public class Dialogue : ScriptableObject
+    {
+        [SerializeField] private DialogueNode[] nodes;
 
 
+    }
 }
