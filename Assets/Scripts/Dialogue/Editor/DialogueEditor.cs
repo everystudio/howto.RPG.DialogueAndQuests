@@ -39,7 +39,7 @@ namespace RPG.Dialogue.Editor
 
         private void OnSelectionChanged()
         {
-            Debug.Log("選択が変更されました");
+            //Debug.Log("選択が変更されました");
             Dialogue newDialogue = Selection.activeObject as Dialogue;
             if (newDialogue != null)
             {
@@ -55,6 +55,12 @@ namespace RPG.Dialogue.Editor
             if (selectedDialogue != null)
             {
                 EditorGUILayout.LabelField(selectedDialogue.name);
+
+                foreach (var node in selectedDialogue.GetAllNodes())
+                {
+                    EditorGUILayout.LabelField(node.text);
+                }
+
             }
             else
             {
