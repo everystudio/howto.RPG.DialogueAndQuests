@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
+using System;
 
 namespace RPG.Dialogue.Editor
 {
 
     public class DialogueEditor : EditorWindow
     {
+        private Dialogue selectedDialogue;
+
         [MenuItem("Window/ダイアログエディタ")]
         public static void ShowEditorWindow()
         {
@@ -29,13 +32,34 @@ namespace RPG.Dialogue.Editor
             return false;
         }
 
+        private void OnEnable()
+        {
+            Selection.selectionChanged += OnSelectionChanged;
+        }
+
+        private void OnSelectionChanged()
+        {
+            Debug.Log("選択が変更されました");
+            Dialogue newDialogue = Selection.activeObject as Dialogue;
+            if (newDialogue != null)
+            {
+                selectedDialogue = newDialogue;
+                Repaint();
+            }
+        }
+
         private void OnGUI()
         {
             //Debug.Log("ongui");
 
-            EditorGUILayout.LabelField("りんご");
-            EditorGUILayout.LabelField("みかん");
-            EditorGUILayout.LabelField("MOMO");
+            if (selectedDialogue != null)
+            {
+                EditorGUILayout.LabelField(selectedDialogue.name);
+            }
+            else
+            {
+                EditorGUILayout.LabelField("選択されてません");
+            }
 
         }
     }
