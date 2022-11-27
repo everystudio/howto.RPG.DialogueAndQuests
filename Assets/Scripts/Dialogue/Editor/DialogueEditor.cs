@@ -11,6 +11,7 @@ namespace RPG.Dialogue.Editor
     public class DialogueEditor : EditorWindow
     {
         private Dialogue selectedDialogue;
+        private string customText;
 
         [MenuItem("Window/ダイアログエディタ")]
         public static void ShowEditorWindow()
@@ -54,11 +55,16 @@ namespace RPG.Dialogue.Editor
 
             if (selectedDialogue != null)
             {
-                EditorGUILayout.LabelField(selectedDialogue.name);
+                customText = EditorGUILayout.TextField(customText);
 
                 foreach (var node in selectedDialogue.GetAllNodes())
                 {
-                    EditorGUILayout.LabelField(node.text);
+                    string newText = EditorGUILayout.TextField(node.text);
+                    if (newText != node.text)
+                    {
+                        node.text = newText;
+                        EditorUtility.SetDirty(selectedDialogue);
+                    }
                 }
 
             }

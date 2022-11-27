@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a1466e2d6a214049a46006631e49ef9, type: 3}
   m_Name: Dialogue
   m_EditorClassIdentifier: 
-  nodes: []
+  nodes:
+  - uniqueID: 
+    text: "\u3066\u304D\u3059\u3068\uFF11\u66F4\u65B0"
+    children:
+    - 
