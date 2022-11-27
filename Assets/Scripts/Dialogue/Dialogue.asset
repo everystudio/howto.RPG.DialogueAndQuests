@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dialogue
   m_EditorClassIdentifier: 
   nodes:
-  - uniqueID: 
+  - uniqueID: "id\u66F4\u65B0"
     text: "\u3066\u304D\u3059\u3068\uFF11\u66F4\u65B0"
     children:
     - 
