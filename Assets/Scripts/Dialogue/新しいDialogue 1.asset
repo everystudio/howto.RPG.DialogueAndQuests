@@ -12,4 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a1466e2d6a214049a46006631e49ef9, type: 3}
   m_Name: "\u65B0\u3057\u3044Dialogue 1"
   m_EditorClassIdentifier: 
-  nodes: []
+  nodes:
+  - uniqueID: 1
+    text: 22
+    children: []
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 200
+      height: 100

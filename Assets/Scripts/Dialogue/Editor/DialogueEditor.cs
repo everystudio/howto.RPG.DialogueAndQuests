@@ -63,9 +63,9 @@ namespace RPG.Dialogue.Editor
                 ProcessEvents();
                 foreach (var node in selectedDialogue.GetAllNodes())
                 {
-                    OnGUINode(node);
+                    DrawNode(node);
+                    DrawConnections(node);
                 }
-
             }
             else
             {
@@ -94,7 +94,7 @@ namespace RPG.Dialogue.Editor
             }
         }
 
-        private void OnGUINode(DialogueNode node)
+        private void DrawNode(DialogueNode node)
         {
             GUILayout.BeginArea(node.rect, nodeStyle);
 
@@ -115,9 +115,26 @@ namespace RPG.Dialogue.Editor
             {
                 EditorGUILayout.LabelField(childNode.text);
             }
-
-
             GUILayout.EndArea();
         }
+
+        // ノードや線の描画順が気になる場合は先にDrawConnectionsを呼んだ後にDrawNodeしてください
+        private void DrawConnections(DialogueNode node)
+        {
+            foreach (DialogueNode childNode in selectedDialogue.GetAllChildren(node))
+            {
+                Vector2 startPosition = new Vector2(node.rect.xMax, node.rect.center.y);
+                Vector2 endPosition = new Vector2(childNode.rect.xMin, childNode.rect.center.y);
+
+                Vector2 offset = (endPosition - startPosition) * 0.5f;
+                offset.y = 0;
+
+                Handles.DrawBezier(
+                    startPosition, endPosition,
+                    startPosition + offset,
+                    endPosition - offset, Color.white, null, 4f);
+            }
+        }
+
     }
 }
