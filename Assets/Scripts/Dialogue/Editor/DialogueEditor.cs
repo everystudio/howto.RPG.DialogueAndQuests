@@ -12,6 +12,7 @@ namespace RPG.Dialogue.Editor
     {
         private Dialogue selectedDialogue;
         private GUIStyle nodeStyle;
+        private bool dragging = false;
 
         [MenuItem("Window/ダイアログエディタ")]
         public static void ShowEditorWindow()
@@ -56,10 +57,9 @@ namespace RPG.Dialogue.Editor
 
         private void OnGUI()
         {
-            //Debug.Log("ongui");
-
             if (selectedDialogue != null)
             {
+                ProcessEvents();
                 foreach (var node in selectedDialogue.GetAllNodes())
                 {
                     OnGUINode(node);
@@ -70,12 +70,33 @@ namespace RPG.Dialogue.Editor
             {
                 EditorGUILayout.LabelField("選択されてません");
             }
+        }
 
+        private void ProcessEvents()
+        {
+            if (Event.current.type == EventType.MouseDown && !dragging)
+            {
+                EditorGUI.BeginChangeCheck();
+                dragging = true;
+            }
+            else if (Event.current.type == EventType.MouseDrag && dragging)
+            {
+                selectedDialogue.GetRootNode().rect.position = Event.current.mousePosition;
+                GUI.changed = true;
+            }
+            else if (Event.current.type == EventType.MouseUp && dragging)
+            {
+                if (EditorGUI.EndChangeCheck())
+                {
+                    Undo.RecordObject(selectedDialogue, "ノードの移動");
+                }
+                dragging = false;
+            }
         }
 
         private void OnGUINode(DialogueNode node)
         {
-            GUILayout.BeginArea(node.position, nodeStyle);
+            GUILayout.BeginArea(node.rect, nodeStyle);
 
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.LabelField($"Node:", EditorStyles.whiteLabel);
