@@ -27,5 +27,18 @@ namespace RPG.Dialogue
         {
             return nodes[0];
         }
+
+        public bool TryGetNodeAtPosition(Vector2 position, out DialogueNode dialogueNode)
+        {
+            dialogueNode = null;
+            foreach (DialogueNode node in nodes)
+            {
+                if (node.rect.Contains(position))
+                {
+                    dialogueNode = node;
+                }
+            }
+            return dialogueNode != null;
+        }
     }
 }

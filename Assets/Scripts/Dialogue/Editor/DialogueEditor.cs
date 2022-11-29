@@ -12,7 +12,8 @@ namespace RPG.Dialogue.Editor
     {
         private Dialogue selectedDialogue;
         private GUIStyle nodeStyle;
-        private bool dragging = false;
+        private DialogueNode draggingNode = null;
+        private Vector2 draggingOffset;
 
         [MenuItem("Window/ダイアログエディタ")]
         public static void ShowEditorWindow()
@@ -74,23 +75,22 @@ namespace RPG.Dialogue.Editor
 
         private void ProcessEvents()
         {
-            if (Event.current.type == EventType.MouseDown && !dragging)
+            if (Event.current.type == EventType.MouseDown && draggingNode == null)
             {
-                EditorGUI.BeginChangeCheck();
-                dragging = true;
+                if (selectedDialogue.TryGetNodeAtPosition(Event.current.mousePosition, out draggingNode))
+                {
+                    draggingOffset = draggingNode.rect.position - Event.current.mousePosition;
+                }
             }
-            else if (Event.current.type == EventType.MouseDrag && dragging)
+            else if (Event.current.type == EventType.MouseDrag && draggingNode != null)
             {
-                selectedDialogue.GetRootNode().rect.position = Event.current.mousePosition;
+                Undo.RecordObject(selectedDialogue, "ノードの移動");
+                draggingNode.rect.position = Event.current.mousePosition + draggingOffset;
                 GUI.changed = true;
             }
-            else if (Event.current.type == EventType.MouseUp && dragging)
+            else if (Event.current.type == EventType.MouseUp && draggingNode != null)
             {
-                if (EditorGUI.EndChangeCheck())
-                {
-                    Undo.RecordObject(selectedDialogue, "ノードの移動");
-                }
-                dragging = false;
+                draggingNode = null;
             }
         }
 

@@ -17,19 +17,19 @@ MonoBehaviour:
     text: "\u3066\u304D\u3059\u3068\uFF11\u66F4\u65B0"
     children:
     - aaaa
-    position:
+    rect:
       serializedVersion: 2
-      x: 0
-      y: 30
-      width: 250
+      x: 121
+      y: 246
+      width: 200
       height: 100
   - uniqueID: "\uFF12\u3064\u76EE"
     text: "\u3075\u305F\u3064\u3081\u30C6\u30AD\u30B9\u30C8"
     children:
     - aaaa
-    position:
+    rect:
       serializedVersion: 2
-      x: 0
-      y: 150
-      width: 250
+      x: 131
+      y: 154
+      width: 200
       height: 100
