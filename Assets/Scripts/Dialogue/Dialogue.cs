@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,6 +40,20 @@ namespace RPG.Dialogue
                 }
             }
             return dialogueNode != null;
+        }
+
+        public IEnumerable<DialogueNode> GetAllChildren(DialogueNode parent)
+        {
+            foreach (string id in parent.children)
+            {
+                foreach (DialogueNode node in nodes)
+                {
+                    if (node.uniqueID == id)
+                    {
+                        yield return node;
+                    }
+                }
+            }
         }
     }
 }
