@@ -17,6 +17,7 @@ namespace RPG.Dialogue.Editor
         [NonSerialized] private DialogueNode creatingNode = null;
         [NonSerialized] private DialogueNode deletingNode = null;
         [NonSerialized] private DialogueNode linkingParentNode = null;
+        Vector2 scrollPosition;
 
         [MenuItem("Window/ダイアログエディタ")]
         public static void ShowEditorWindow()
@@ -60,19 +61,22 @@ namespace RPG.Dialogue.Editor
 
         private void OnGUI()
         {
-            if (selectedDialogue != null)
-            {
-                ProcessEvents();
-                foreach (var node in selectedDialogue.GetAllNodes())
-                {
-                    DrawNode(node);
-                    DrawConnections(node);
-                }
-            }
-            else
+            if (selectedDialogue == null)
             {
                 EditorGUILayout.LabelField("選択されてません");
+                return;
             }
+
+            ProcessEvents();
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+            GUILayoutUtility.GetRect(4000f, 4000f);
+            foreach (var node in selectedDialogue.GetAllNodes())
+            {
+                DrawNode(node);
+                DrawConnections(node);
+            }
+            EditorGUILayout.EndScrollView();
+
 
             if (creatingNode != null)
             {
@@ -93,7 +97,7 @@ namespace RPG.Dialogue.Editor
         {
             if (Event.current.type == EventType.MouseDown && draggingNode == null)
             {
-                if (selectedDialogue.TryGetNodeAtPosition(Event.current.mousePosition, out draggingNode))
+                if (selectedDialogue.TryGetNodeAtPosition(Event.current.mousePosition + scrollPosition, out draggingNode))
                 {
                     draggingOffset = draggingNode.rect.position - Event.current.mousePosition;
                 }
