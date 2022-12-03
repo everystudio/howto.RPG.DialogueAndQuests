@@ -16,6 +16,7 @@ namespace RPG.Dialogue.Editor
         private Vector2 draggingOffset;
         [NonSerialized] private DialogueNode creatingNode = null;
         [NonSerialized] private DialogueNode deletingNode = null;
+        [NonSerialized] private DialogueNode linkingParentNode = null;
 
         [MenuItem("Window/ダイアログエディタ")]
         public static void ShowEditorWindow()
@@ -131,6 +132,9 @@ namespace RPG.Dialogue.Editor
             {
                 creatingNode = node;
             }
+
+            DrawLinkButtons(node);
+
             if (GUILayout.Button("x"))
             {
                 deletingNode = node;
@@ -138,6 +142,42 @@ namespace RPG.Dialogue.Editor
             GUILayout.EndHorizontal();
 
             GUILayout.EndArea();
+        }
+
+        private void DrawLinkButtons(DialogueNode node)
+        {
+            if (linkingParentNode == null)
+            {
+                if (GUILayout.Button("link"))
+                {
+                    linkingParentNode = node;
+                }
+            }
+            else if (linkingParentNode == node)
+            {
+                if (GUILayout.Button("cancel"))
+                {
+                    linkingParentNode = null;
+                }
+            }
+            else if (linkingParentNode.children.Contains(node.uniqueID))
+            {
+                if (GUILayout.Button("unlink"))
+                {
+                    Undo.RecordObject(selectedDialogue, "リンクの解除");
+                    linkingParentNode.children.Remove(node.uniqueID);
+                    linkingParentNode = null;
+                }
+            }
+            else
+            {
+                if (GUILayout.Button("child"))
+                {
+                    Undo.RecordObject(selectedDialogue, "ノードのリンクセット");
+                    linkingParentNode.children.Add(node.uniqueID);
+                    linkingParentNode = null;
+                }
+            }
         }
 
         // ノードや線の描画順が気になる場合は先にDrawConnectionsを呼んだ後にDrawNodeしてください

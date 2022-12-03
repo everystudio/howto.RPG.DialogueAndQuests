@@ -15,10 +15,30 @@ MonoBehaviour:
   nodes:
   - uniqueID: a1ecc799-abc5-4063-9235-cf77153c288e
     text: 
+    children:
+    - 8ee34294-7501-49f3-90cb-72eb3da2cb83
+    - 39a8ac6f-6f5b-47fe-a007-c377fe5d8ba0
+    rect:
+      serializedVersion: 2
+      x: 98
+      y: 229
+      width: 200
+      height: 100
+  - uniqueID: 8ee34294-7501-49f3-90cb-72eb3da2cb83
+    text: 
     children: []
     rect:
       serializedVersion: 2
-      x: 0
-      y: 0
+      x: 369
+      y: 135
+      width: 200
+      height: 100
+  - uniqueID: 39a8ac6f-6f5b-47fe-a007-c377fe5d8ba0
+    text: 
+    children: []
+    rect:
+      serializedVersion: 2
+      x: 360
+      y: 289
       width: 200
       height: 100
