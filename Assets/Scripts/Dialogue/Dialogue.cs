@@ -8,7 +8,7 @@ namespace RPG.Dialogue
     [CreateAssetMenu(fileName = "新しいDialogue", menuName = Defines.ProjectMenuName + "/Dialogue")]
     public class Dialogue : ScriptableObject
     {
-        [SerializeField] private List<DialogueNode> nodes;
+        [SerializeField] private List<DialogueNode> nodes = new List<DialogueNode>();
 
         private Dictionary<string, DialogueNode> nodeLookup = new();
 
@@ -18,7 +18,9 @@ namespace RPG.Dialogue
             Debug.Log("Awake from " + name);
             if (nodes.Count == 0)
             {
-                nodes.Add(new DialogueNode());
+                DialogueNode rootNode = new DialogueNode();
+                rootNode.uniqueID = Guid.NewGuid().ToString();
+                nodes.Add(rootNode);
             }
         }
 #endif
@@ -55,13 +57,26 @@ namespace RPG.Dialogue
 
         public IEnumerable<DialogueNode> GetAllChildren(DialogueNode parent)
         {
-            foreach (string childID in parent.children)
+            if (parent.children != null)
             {
-                if (nodeLookup.ContainsKey(childID))
+                foreach (string childID in parent.children)
                 {
-                    yield return nodeLookup[childID];
+                    if (nodeLookup.ContainsKey(childID))
+                    {
+                        yield return nodeLookup[childID];
+                    }
                 }
             }
+        }
+
+        public void CreateNode(DialogueNode parentNode)
+        {
+            DialogueNode newNode = new DialogueNode();
+            newNode.uniqueID = Guid.NewGuid().ToString();
+            parentNode.children.Add(newNode.uniqueID);
+            nodes.Add(newNode);
+
+            OnValidate();
         }
     }
 }

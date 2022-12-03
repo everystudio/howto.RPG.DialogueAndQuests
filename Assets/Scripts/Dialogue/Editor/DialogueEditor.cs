@@ -14,6 +14,7 @@ namespace RPG.Dialogue.Editor
         private GUIStyle nodeStyle;
         private DialogueNode draggingNode = null;
         private Vector2 draggingOffset;
+        private DialogueNode creatingNode = null;
 
         [MenuItem("Window/ダイアログエディタ")]
         public static void ShowEditorWindow()
@@ -71,6 +72,13 @@ namespace RPG.Dialogue.Editor
             {
                 EditorGUILayout.LabelField("選択されてません");
             }
+
+            if (creatingNode != null)
+            {
+                Undo.RecordObject(selectedDialogue, "ノードの追加");
+                selectedDialogue.CreateNode(creatingNode);
+                creatingNode = null;
+            }
         }
 
         private void ProcessEvents()
@@ -102,19 +110,18 @@ namespace RPG.Dialogue.Editor
             EditorGUILayout.LabelField($"Node:", EditorStyles.whiteLabel);
 
             string newText = EditorGUILayout.TextField(node.text);
-            string newUniqueID = EditorGUILayout.TextField(node.uniqueID);
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(selectedDialogue, $"Update Dialogue Data");
 
                 node.text = newText;
-                node.uniqueID = newUniqueID;
             }
 
-            foreach (DialogueNode childNode in selectedDialogue.GetAllChildren(node))
+            if (GUILayout.Button("+"))
             {
-                EditorGUILayout.LabelField(childNode.text);
+                creatingNode = node;
             }
+
             GUILayout.EndArea();
         }
 
