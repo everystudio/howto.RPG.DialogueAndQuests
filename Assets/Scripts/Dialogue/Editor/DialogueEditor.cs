@@ -14,12 +14,12 @@ namespace RPG.Dialogue.Editor
         private GUIStyle nodeStyle;
         private DialogueNode draggingNode = null;
         private Vector2 draggingOffset;
-        private DialogueNode creatingNode = null;
+        [NonSerialized] private DialogueNode creatingNode = null;
+        [NonSerialized] private DialogueNode deletingNode = null;
 
         [MenuItem("Window/ダイアログエディタ")]
         public static void ShowEditorWindow()
         {
-            //Debug.Log("ShowEditorWindow");
             GetWindow(typeof(DialogueEditor), false, "Dialogue Editor");
         }
 
@@ -79,6 +79,13 @@ namespace RPG.Dialogue.Editor
                 selectedDialogue.CreateNode(creatingNode);
                 creatingNode = null;
             }
+
+            if (deletingNode != null)
+            {
+                Undo.RecordObject(selectedDialogue, "ノードの削除");
+                selectedDialogue.DeleteNode(deletingNode);
+                deletingNode = null;
+            }
         }
 
         private void ProcessEvents()
@@ -106,6 +113,7 @@ namespace RPG.Dialogue.Editor
         {
             GUILayout.BeginArea(node.rect, nodeStyle);
 
+
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.LabelField($"Node:", EditorStyles.whiteLabel);
 
@@ -117,10 +125,17 @@ namespace RPG.Dialogue.Editor
                 node.text = newText;
             }
 
+            GUILayout.BeginHorizontal();
+
             if (GUILayout.Button("+"))
             {
                 creatingNode = node;
             }
+            if (GUILayout.Button("x"))
+            {
+                deletingNode = node;
+            }
+            GUILayout.EndHorizontal();
 
             GUILayout.EndArea();
         }
