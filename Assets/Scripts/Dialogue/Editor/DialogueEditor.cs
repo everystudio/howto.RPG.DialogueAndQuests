@@ -89,14 +89,12 @@ namespace RPG.Dialogue.Editor
 
             if (creatingNode != null)
             {
-                Undo.RecordObject(selectedDialogue, "ノードの追加");
                 selectedDialogue.CreateNode(creatingNode);
                 creatingNode = null;
             }
 
             if (deletingNode != null)
             {
-                Undo.RecordObject(selectedDialogue, "ノードの削除");
                 selectedDialogue.DeleteNode(deletingNode);
                 deletingNode = null;
             }
@@ -109,7 +107,7 @@ namespace RPG.Dialogue.Editor
                 Vector2 mousePosition = Event.current.mousePosition + scrollPosition;
                 if (selectedDialogue.TryGetNodeAtPosition(mousePosition, out draggingNode))
                 {
-                    draggingOffset = draggingNode.rect.position - Event.current.mousePosition;
+                    draggingOffset = draggingNode.GetRect().position - Event.current.mousePosition;
                     Selection.activeObject = draggingNode;
                 }
                 else
@@ -121,8 +119,7 @@ namespace RPG.Dialogue.Editor
             }
             else if (Event.current.type == EventType.MouseDrag && draggingNode != null)
             {
-                Undo.RecordObject(selectedDialogue, "ノードの移動");
-                draggingNode.rect.position = Event.current.mousePosition + draggingOffset;
+                draggingNode.SetRectPosition(Event.current.mousePosition + draggingOffset);
                 GUI.changed = true;
             }
             else if (Event.current.type == EventType.MouseDrag && draggingCanvas)
@@ -142,19 +139,10 @@ namespace RPG.Dialogue.Editor
 
         private void DrawNode(DialogueNode node)
         {
-            GUILayout.BeginArea(node.rect, nodeStyle);
+            GUILayout.BeginArea(node.GetRect(), nodeStyle);
 
-
-            EditorGUI.BeginChangeCheck();
             EditorGUILayout.LabelField($"Node:", EditorStyles.whiteLabel);
-
-            string newText = EditorGUILayout.TextField(node.text);
-            if (EditorGUI.EndChangeCheck())
-            {
-                Undo.RecordObject(selectedDialogue, $"Update Dialogue Data");
-
-                node.text = newText;
-            }
+            node.SetText(EditorGUILayout.TextField(node.GetText()));
 
             GUILayout.BeginHorizontal();
 
@@ -190,12 +178,11 @@ namespace RPG.Dialogue.Editor
                     linkingParentNode = null;
                 }
             }
-            else if (linkingParentNode.children.Contains(node.name))
+            else if (linkingParentNode.GetChildren().Contains(node.name))
             {
                 if (GUILayout.Button("unlink"))
                 {
-                    Undo.RecordObject(selectedDialogue, "リンクの解除");
-                    linkingParentNode.children.Remove(node.name);
+                    linkingParentNode.RemoveChild(node.name);
                     linkingParentNode = null;
                 }
             }
@@ -203,8 +190,7 @@ namespace RPG.Dialogue.Editor
             {
                 if (GUILayout.Button("child"))
                 {
-                    Undo.RecordObject(selectedDialogue, "ノードのリンクセット");
-                    linkingParentNode.children.Add(node.name);
+                    linkingParentNode.AddChild(node.name);
                     linkingParentNode = null;
                 }
             }
@@ -215,8 +201,11 @@ namespace RPG.Dialogue.Editor
         {
             foreach (DialogueNode childNode in selectedDialogue.GetAllChildren(node))
             {
-                Vector2 startPosition = new Vector2(node.rect.xMax, node.rect.center.y);
-                Vector2 endPosition = new Vector2(childNode.rect.xMin, childNode.rect.center.y);
+                Rect nodeRect = node.GetRect();
+                Rect childNodeRect = childNode.GetRect();
+
+                Vector2 startPosition = new Vector2(nodeRect.xMax, nodeRect.center.y);
+                Vector2 endPosition = new Vector2(childNodeRect.xMin, childNodeRect.center.y);
 
                 Vector2 offset = (endPosition - startPosition) * 0.5f;
                 offset.y = 0;

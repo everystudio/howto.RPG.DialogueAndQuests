@@ -1,5 +1,25 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8783398173872558817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84038fb1c3250ab4f8a6d4674d5df3c2, type: 3}
+  m_Name: 52c27bf1-a732-452c-b7c6-e93fdf00144f
+  m_EditorClassIdentifier: 
+  text: 
+  children: []
+  rect:
+    serializedVersion: 2
+    x: 454
+    y: 38
+    width: 200
+    height: 100
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14,6 +34,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodes:
   - {fileID: 3986344278615109885}
+  - {fileID: -8783398173872558817}
+  - {fileID: 713625752871759228}
+  - {fileID: 8274964040130268379}
+--- !u!114 &713625752871759228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84038fb1c3250ab4f8a6d4674d5df3c2, type: 3}
+  m_Name: 8beb2b43-12f2-4173-ba58-198566767175
+  m_EditorClassIdentifier: 
+  text: aaaaa
+  children:
+  - 873bcedc-13fe-47d1-977b-7260607e4a0f
+  rect:
+    serializedVersion: 2
+    x: 353
+    y: 300
+    width: 200
+    height: 100
 --- !u!114 &3986344278615109885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26,11 +70,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84038fb1c3250ab4f8a6d4674d5df3c2, type: 3}
   m_Name: 9a9a8265-7382-46af-86b9-4e0ecaf76a13
   m_EditorClassIdentifier: 
-  text: 
+  text: aiueo
+  children:
+  - 52c27bf1-a732-452c-b7c6-e93fdf00144f
+  - 8beb2b43-12f2-4173-ba58-198566767175
+  rect:
+    serializedVersion: 2
+    x: 114
+    y: 96
+    width: 200
+    height: 100
+--- !u!114 &8274964040130268379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84038fb1c3250ab4f8a6d4674d5df3c2, type: 3}
+  m_Name: 873bcedc-13fe-47d1-977b-7260607e4a0f
+  m_EditorClassIdentifier: 
+  text: ttttt
   children: []
   rect:
     serializedVersion: 2
-    x: 0
-    y: 0
+    x: 615
+    y: 183
     width: 200
     height: 100
