@@ -8,10 +8,12 @@ namespace RPG.Dialogue
 {
     public class DialogueNode : ScriptableObject
     {
+        [SerializeField] private bool isPlayerSpeaking = false;
         [SerializeField] private string text;
         [SerializeField] private List<string> children = new List<string>();
         [SerializeField] private Rect rect = new Rect(0f, 0f, 200f, 100f);
 
+        public bool IsPlayerSpeaking() { return isPlayerSpeaking; }
         public Rect GetRect()
         {
             return rect;
@@ -49,6 +51,15 @@ namespace RPG.Dialogue
             Undo.RecordObject(this, "リンクの解除");
             children.Remove(childID);
             EditorUtility.SetDirty(this);
+        }
+        public void SetPlayerSpeaking(bool isPlayerSpeaking)
+        {
+            if (this.isPlayerSpeaking != isPlayerSpeaking)
+            {
+                Undo.RecordObject(this, "ダイアログスピーカーの変更");
+                this.isPlayerSpeaking = isPlayerSpeaking;
+                EditorUtility.SetDirty(this);
+            }
         }
 #endif
     }

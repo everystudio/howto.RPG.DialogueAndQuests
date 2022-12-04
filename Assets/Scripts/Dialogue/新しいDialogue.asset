@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84038fb1c3250ab4f8a6d4674d5df3c2, type: 3}
   m_Name: 52c27bf1-a732-452c-b7c6-e93fdf00144f
   m_EditorClassIdentifier: 
+  isPlayerSpeaker: 1
   text: 
   children: []
   rect:
     serializedVersion: 2
-    x: 454
-    y: 38
+    x: 370
+    y: 56
     width: 200
     height: 100
 --- !u!114 &11400000
@@ -49,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84038fb1c3250ab4f8a6d4674d5df3c2, type: 3}
   m_Name: 8beb2b43-12f2-4173-ba58-198566767175
   m_EditorClassIdentifier: 
+  isPlayerSpeaker: 0
   text: aaaaa
   children:
   - 873bcedc-13fe-47d1-977b-7260607e4a0f
@@ -70,6 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84038fb1c3250ab4f8a6d4674d5df3c2, type: 3}
   m_Name: 9a9a8265-7382-46af-86b9-4e0ecaf76a13
   m_EditorClassIdentifier: 
+  isPlayerSpeaker: 0
   text: aiueo
   children:
   - 52c27bf1-a732-452c-b7c6-e93fdf00144f
@@ -92,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84038fb1c3250ab4f8a6d4674d5df3c2, type: 3}
   m_Name: 873bcedc-13fe-47d1-977b-7260607e4a0f
   m_EditorClassIdentifier: 
+  isPlayerSpeaker: 0
   text: ttttt
   children: []
   rect:
