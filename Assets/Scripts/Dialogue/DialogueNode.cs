@@ -25,6 +25,7 @@ namespace RPG.Dialogue
         {
             Undo.RecordObject(this, "ノードの移動");
             rect.position = position;
+            EditorUtility.SetDirty(this);
         }
 
         public void SetText(string newText)
@@ -33,6 +34,7 @@ namespace RPG.Dialogue
             {
                 Undo.RecordObject(this, $"Update Dialogue Data");
                 text = newText;
+                EditorUtility.SetDirty(this);
             }
         }
 
@@ -40,11 +42,13 @@ namespace RPG.Dialogue
         {
             Undo.RecordObject(this, "ノードのリンクセット");
             children.Add(childID);
+            EditorUtility.SetDirty(this);
         }
         public void RemoveChild(string childID)
         {
             Undo.RecordObject(this, "リンクの解除");
             children.Remove(childID);
+            EditorUtility.SetDirty(this);
         }
 #endif
     }
