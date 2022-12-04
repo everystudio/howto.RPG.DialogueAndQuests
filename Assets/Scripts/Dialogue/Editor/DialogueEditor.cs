@@ -18,6 +18,8 @@ namespace RPG.Dialogue.Editor
         [NonSerialized] private DialogueNode deletingNode = null;
         [NonSerialized] private DialogueNode linkingParentNode = null;
         Vector2 scrollPosition;
+        [NonSerialized] private bool draggingCanvas = false;
+        [NonSerialized] private Vector2 draggingCanvasOffset;
 
         [MenuItem("Window/ダイアログエディタ")]
         public static void ShowEditorWindow()
@@ -97,9 +99,15 @@ namespace RPG.Dialogue.Editor
         {
             if (Event.current.type == EventType.MouseDown && draggingNode == null)
             {
-                if (selectedDialogue.TryGetNodeAtPosition(Event.current.mousePosition + scrollPosition, out draggingNode))
+                Vector2 mousePosition = Event.current.mousePosition + scrollPosition;
+                if (selectedDialogue.TryGetNodeAtPosition(mousePosition, out draggingNode))
                 {
                     draggingOffset = draggingNode.rect.position - Event.current.mousePosition;
+                }
+                else
+                {
+                    draggingCanvas = true;
+                    draggingCanvasOffset = mousePosition;
                 }
             }
             else if (Event.current.type == EventType.MouseDrag && draggingNode != null)
@@ -108,9 +116,18 @@ namespace RPG.Dialogue.Editor
                 draggingNode.rect.position = Event.current.mousePosition + draggingOffset;
                 GUI.changed = true;
             }
+            else if (Event.current.type == EventType.MouseDrag && draggingCanvas)
+            {
+                scrollPosition = draggingCanvasOffset - Event.current.mousePosition;
+                GUI.changed = true;
+            }
             else if (Event.current.type == EventType.MouseUp && draggingNode != null)
             {
                 draggingNode = null;
+            }
+            else if (Event.current.type == EventType.MouseUp && draggingCanvas)
+            {
+                draggingCanvas = false;
             }
         }
 
