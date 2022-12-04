@@ -6,7 +6,6 @@ namespace RPG.Dialogue
 {
     public class DialogueNode : ScriptableObject
     {
-        public string uniqueID;
         public string text;
         public List<string> children = new List<string>();
         public Rect rect = new Rect(0f, 0f, 200f, 100f);

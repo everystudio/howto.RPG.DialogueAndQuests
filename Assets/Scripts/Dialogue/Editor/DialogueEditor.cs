@@ -190,12 +190,12 @@ namespace RPG.Dialogue.Editor
                     linkingParentNode = null;
                 }
             }
-            else if (linkingParentNode.children.Contains(node.uniqueID))
+            else if (linkingParentNode.children.Contains(node.name))
             {
                 if (GUILayout.Button("unlink"))
                 {
                     Undo.RecordObject(selectedDialogue, "リンクの解除");
-                    linkingParentNode.children.Remove(node.uniqueID);
+                    linkingParentNode.children.Remove(node.name);
                     linkingParentNode = null;
                 }
             }
@@ -204,7 +204,7 @@ namespace RPG.Dialogue.Editor
                 if (GUILayout.Button("child"))
                 {
                     Undo.RecordObject(selectedDialogue, "ノードのリンクセット");
-                    linkingParentNode.children.Add(node.uniqueID);
+                    linkingParentNode.children.Add(node.name);
                     linkingParentNode = null;
                 }
             }
