@@ -21,6 +21,9 @@ namespace RPG.Dialogue.Editor
         [NonSerialized] private bool draggingCanvas = false;
         [NonSerialized] private Vector2 draggingCanvasOffset;
 
+        const float canvasSize = 4000f;
+        const float backgroundSize = 50f;
+
         [MenuItem("Window/ダイアログエディタ")]
         public static void ShowEditorWindow()
         {
@@ -71,7 +74,11 @@ namespace RPG.Dialogue.Editor
 
             ProcessEvents();
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-            GUILayoutUtility.GetRect(4000f, 4000f);
+            Rect canvasRect = GUILayoutUtility.GetRect(canvasSize, canvasSize);
+            Texture2D backgroundTex = Resources.Load("background") as Texture2D;
+            Rect texCoords = new Rect(0f, 0f, canvasSize / backgroundSize, canvasSize / backgroundSize);
+            GUI.DrawTextureWithTexCoords(canvasRect, backgroundTex, texCoords);
+
             foreach (var node in selectedDialogue.GetAllNodes())
             {
                 DrawNode(node);
