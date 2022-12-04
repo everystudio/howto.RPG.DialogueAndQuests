@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 namespace RPG.Dialogue
 {
@@ -18,9 +19,7 @@ namespace RPG.Dialogue
             Debug.Log("Awake from " + name);
             if (nodes.Count == 0)
             {
-                DialogueNode rootNode = new DialogueNode();
-                rootNode.uniqueID = Guid.NewGuid().ToString();
-                nodes.Add(rootNode);
+                CreateNode(null);
             }
         }
 #endif
@@ -71,9 +70,13 @@ namespace RPG.Dialogue
 
         public void CreateNode(DialogueNode parentNode)
         {
-            DialogueNode newNode = new DialogueNode();
+            DialogueNode newNode = ScriptableObject.CreateInstance<DialogueNode>();
             newNode.uniqueID = Guid.NewGuid().ToString();
-            parentNode.children.Add(newNode.uniqueID);
+            Undo.RegisterCreatedObjectUndo(newNode, "Created Dialogue Node");
+            if (parentNode != null)
+            {
+                parentNode.children.Add(newNode.uniqueID);
+            }
             nodes.Add(newNode);
 
             OnValidate();
@@ -82,7 +85,7 @@ namespace RPG.Dialogue
         public void DeleteNode(DialogueNode nodeToDelete)
         {
             nodes.Remove(nodeToDelete);
-
+            Undo.DestroyObjectImmediate(nodeToDelete);
             OnValidate();
 
             CleanDanglingChildren(nodeToDelete);

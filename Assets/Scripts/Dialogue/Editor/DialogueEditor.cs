@@ -110,11 +110,13 @@ namespace RPG.Dialogue.Editor
                 if (selectedDialogue.TryGetNodeAtPosition(mousePosition, out draggingNode))
                 {
                     draggingOffset = draggingNode.rect.position - Event.current.mousePosition;
+                    Selection.activeObject = draggingNode;
                 }
                 else
                 {
                     draggingCanvas = true;
                     draggingCanvasOffset = mousePosition;
+                    Selection.activeObject = selectedDialogue;
                 }
             }
             else if (Event.current.type == EventType.MouseDrag && draggingNode != null)
